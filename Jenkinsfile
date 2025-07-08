@@ -1,24 +1,45 @@
 pipeline {
-  agent { label 'tomcat' }
+  agent any
 
   stages {
     stage('Checkout') {
-      steps { checkout scm }
+      steps {
+        checkout scm
+      }
     }
 
     stage('Unit Tests') {
-      when { branch 'dev' }
-      steps { sh 'mvn clean test' }
+      when {
+        branch 'dev'
+      }
+      steps {
+        echo "Running unit tests for dev branch"
+        sh 'mvn clean test'
+      }
     }
 
     stage('Package') {
-      when { anyOf { branch 'main'; branch 'master' } }
-      steps { sh 'mvn clean package' }
+      when {
+        anyOf {
+          branch 'main'
+          branch 'master'
+        }
+      }
+      steps {
+        echo "Packaging the app for main/master branch"
+        sh 'mvn clean package'
+      }
     }
 
     stage('Deploy') {
-      when { anyOf { branch 'main'; branch 'master' } }
+      when {
+        anyOf {
+          branch 'main'
+          branch 'master'
+        }
+      }
       steps {
+        echo "Deploying the app for main/master branch"
         sh '''
           if pgrep -f "java -jar target/java-sample-*.jar" > /dev/null; then
             pkill -f "java -jar target/java-sample-*.jar"
@@ -33,7 +54,11 @@ pipeline {
   }
 
   post {
-    always { echo "Pipeline finished on branch ${env.BRANCH_NAME}" }
-    failure { echo "Pipeline failed on branch ${env.BRANCH_NAME}" }
+    always {
+      echo "Pipeline finished on branch ${env.BRANCH_NAME}"
+    }
+    failure {
+      echo "Pipeline failed on branch ${env.BRANCH_NAME}"
+    }
   }
 }
