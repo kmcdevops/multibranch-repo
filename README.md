@@ -43,3 +43,4 @@ This version uses significantly less memory than the Spring Boot application, ma
 
 Enjoy your beautiful and lightweight ArtisanTek web application! 🎉 
 # Minor update in dev
+triggering dev branch test
