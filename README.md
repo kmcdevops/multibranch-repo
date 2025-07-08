@@ -42,3 +42,4 @@ java -jar target/java-sample-21-1.0.0.jar
 This version uses significantly less memory than the Spring Boot application, making it ideal for your server.
 
 Enjoy your beautiful and lightweight ArtisanTek web application! 🎉 
+# Minor update in dev
